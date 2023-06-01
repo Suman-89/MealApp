@@ -1,23 +1,36 @@
-import logo from './logo.svg';
+import React from 'react';
+import {useEffect, useState} from "react";
+import SearchBar from './Component/SearchBar'
+import RecipeCard from './Component/RecipeCard'
+import axios from 'axios';
 import './App.css';
 
+
+const apiUrl = "www.themealdb.com/api/json/v1/1/search.php?s=Arrabiata";
+
 function App() {
+
+const [isLoading, setIsLoading] = useState(false);
+const [query, setQuery] = useState("");
+const [recipes, setRecipes] = useState([]);
+
+//function to search for the recipes
+const SearchRecipes =  () =>{
+  setIsLoading(true);
+  axios.get(apiUrl).then((Response)=>{
+    setRecipes(Response.meals);
+    setIsLoading(false);
+
+  })
+}
+
+useEffect(() => {
+  SearchRecipes();
+});
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="Container">
+      <h2>Our Recipe App</h2>
     </div>
   );
 }
